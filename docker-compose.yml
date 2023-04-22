@@ -6,3 +6,15 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+
+  mongo:
+    image: mongo
+    environment: #mongo creds
+      - MONGO_INITDB_ROOT_USERNAME=deepanshu 
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    volumes: #making anonymous volume into a human readable named volume
+      - mongo-db:/data/db  # <name of volume>:<path on container>
+
+# For the named volumes to be used for other services as well
+volumes:
+  mongo-db:
