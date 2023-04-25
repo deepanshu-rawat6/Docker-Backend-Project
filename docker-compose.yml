@@ -6,6 +6,9 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+    depends_on:   # for starting the mongo container before node, but this doesn't tell us that our database is up and running
+      - mongo  # A case, that mongo container is up, but mongo's services are down
+      # Mongoose will try to initiate the processes for 30 seconds, if not then our app will crash
 
   mongo:
     image: mongo

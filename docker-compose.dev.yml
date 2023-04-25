@@ -10,4 +10,10 @@ services:
       - /app/node_modules  # this is for anonymous volume
     environment:
       - NODE_ENV=development
+      - MONGO_USER=deepanshu
+      - MONGO_PASSWORD=mypassword
     command: npm run dev
+  mongo:
+    environment: #mongo creds
+      - MONGO_INITDB_ROOT_USERNAME=deepanshu 
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
