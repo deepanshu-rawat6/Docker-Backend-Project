@@ -17,6 +17,10 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
     volumes: #making anonymous volume into a human readable named volume
       - mongo-db:/data/db  # <name of volume>:<path on container>
+  
+  redis: 
+    image: redis
+    
 
 # For the named volumes to be used for other services as well
 volumes:
