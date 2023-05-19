@@ -20,8 +20,8 @@ services:
   
   redis: 
     image: redis
-    
 
+    
 # For the named volumes to be used for other services as well
 volumes:
   mongo-db:

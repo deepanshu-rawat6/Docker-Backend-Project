@@ -1,11 +1,40 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
+// Experimental
+const RedisStore = require("connect-redis").default;
+
+
+const session = require("express-session");
+
+const redis = require("redis");
+// let RedisStore = require('connect-redis')(session);
+
+
 const {
     MONGO_USER,
     MONGO_PASSWORD,
     MONGO_IP,
-    MONGO_PORT
+    MONGO_PORT,
+    REDIS_URL,
+    SESSION_SECRET,
+    REDIS_PORT,
 } = require("./config/config");
+
+// let redisClient = redis.createClient({
+//     host: REDIS_URL,
+//     port: REDIS_PORT,
+// });
+
+// Experimental
+const redisClient = redis.createClient({
+    socket: {
+        host: REDIS_URL,
+        port: REDIS_PORT
+    },
+});
+
+redisClient.connect().catch(console.error);
 
 const postRouter = require("./routes/postRoutes")
 const userRouter = require("./routes/userRoutes")
@@ -31,8 +60,46 @@ const connectWithRetry = () => {
 
 connectWithRetry();
 
+
+// Middleware for redis 
+// app.use(session({
+//     store: new RedisStore({
+//         client: redisClient
+//     }),
+//     secret: SESSION_SECRET,
+//     cookie: {
+//         secure: false,
+//         resave: false,
+//         saveUninitialized: false,
+//         httpOnly: true,
+//         maxAge: 30000
+//     }
+// }));
+
+
+// Experimental
+let redisStore = new RedisStore({
+    client: redisClient,
+  })
+
+// Middleware for redis 
+app.use(session({
+    store: redisStore,
+    // new RedisStore({
+    //     client: redisClient
+    // }),
+    secret: SESSION_SECRET,
+    cookie: {
+        secure: false,
+        resave: false,
+        saveUninitialized: false,
+        httpOnly: true,
+        maxAge: 30000,
+    }
+}))
+
 // Middle ware to attach the body to the request object
-app.use(express.json()); 
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("<h2>Hello there, I'm Deepanshu, trying to build this node-docker-express app, using docker-compose and distributing the workflow into dev and prod env</h2>");
