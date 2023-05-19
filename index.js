@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 // Experimental
 const RedisStore = require("connect-redis").default;
 
+// For using to comminicate frontend and backend on different domains
+const cors = require("cors");
 
 const session = require("express-session");
 
@@ -60,6 +62,11 @@ const connectWithRetry = () => {
 
 connectWithRetry();
 
+app.enable("trust proxy");
+app.use(cors({
+
+}))
+
 
 // Middleware for redis 
 // app.use(session({
@@ -101,8 +108,11 @@ app.use(session({
 // Middle ware to attach the body to the request object
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
     res.send("<h2>Hello there, I'm Deepanshu, trying to build this node-docker-express app, using docker-compose and distributing the workflow into dev and prod env</h2>");
+    
+    // For checking out whether the application can scale to two node instaces or not
+    console.log("Yeah, Its working");
 });
 
 // localhost:3000/api/v1/post/

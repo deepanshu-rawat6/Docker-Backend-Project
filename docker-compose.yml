@@ -1,9 +1,14 @@
 version: '3.8'
 services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "3000:80" 
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro # bind mount for nginx config file
+  
   node-app:
     build: .
-    ports:
-      - "3000:3000"
     environment:
       - PORT=3000
     depends_on:   # for starting the mongo container before node, but this doesn't tell us that our database is up and running
