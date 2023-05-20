@@ -9,6 +9,7 @@ services:
   
   node-app:
     build: .
+    image: deepanshurawat6/docker-node-app
     environment:
       - PORT=3000
     depends_on:   # for starting the mongo container before node, but this doesn't tell us that our database is up and running
