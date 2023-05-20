@@ -5,6 +5,13 @@ services:
       - "80:80"
 
   node-app:
+    deploy:
+      replicas: 8 # scale to 8 instances
+      restart_policy:
+        condition: any # restart if any instance fails
+      update_config:
+        parallelism: 2 # update 2 instances at a time
+        delay: 15s # wait 15 seconds between updates
     build: 
       context: .
       args:
