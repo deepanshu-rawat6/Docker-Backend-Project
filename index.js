@@ -109,7 +109,7 @@ app.use(session({
 app.use(express.json());
 
 app.get("/api/v1", (req, res) => {
-    res.send("<h2>Hello there, I'm Deepanshu, trying to build this node-docker-express app, using docker-compose and distributing the workflow into dev and prod env. This is for testing out the production server</h2>");
+    res.send("<h2>Hello there, I'm Deepanshu, trying to build this node-docker-express app, using docker-compose and distributing the workflow into dev and prod env. This is for testing out the production server. Again testing out prod env. Now using watchower to automatically pull images to prod env</h2>");
     
     // For checking out whether the application can scale to two node instaces or not
     console.log("Yeah, Its working");
